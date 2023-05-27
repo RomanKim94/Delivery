@@ -22,14 +22,8 @@ class Cargo(models.Model):
             MaxValueValidator(1000)
         ],
     )
-    vehicle = models.ForeignKey(
-        verbose_name='Машина, на которой едет груз',
-        to='vehicle.Vehicle',
-        on_delete=models.PROTECT,
-        related_name='inner_cargos',
-        blank=True,
-    )
     description = models.TextField(
         verbose_name='Описание',
         blank=True,
     )
+

@@ -11,9 +11,13 @@ class Location(models.Model):
         verbose_name='Штат',
         max_length=100,
     )
-    zip = models.CharField(
+    zip = models.IntegerField(
         verbose_name='Почтовый индекс',
-        max_length=15,
+        validators=[
+            MinValueValidator(0),
+        ],
+        primary_key=True,
+        unique=True,
     )
     lat = models.FloatField(
         verbose_name='Широта',
@@ -29,3 +33,7 @@ class Location(models.Model):
             MaxValueValidator(180)
         ],
     )
+
+    def __str__(self):
+        return str(self.zip)
+    
