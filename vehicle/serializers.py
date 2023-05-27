@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from location.serializers import LocationDetailSerializer
 from .models import Vehicle
 
 
@@ -7,6 +9,14 @@ class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         fields = '__all__'
+
+
+class VehicleUpdateSerializer(serializers.ModelSerializer):
+    current_location = LocationDetailSerializer
+
+    class Meta:
+        model = Vehicle
+        fields = ('current_location', )
 
 
 class VehicleDistanceListSerializer(serializers.ModelSerializer):
