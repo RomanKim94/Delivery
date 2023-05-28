@@ -11,22 +11,32 @@ from ..models import Location
 def parse_csv_to_db(apps, schema_editor):
     with open(os.path.join(settings.BASE_DIR, 'locations.csv'), 'r') as file:
         reader = csv.DictReader(file, delimiter=',')
+        location_list = []
         for row in reader:
-            location = Location(
-                city=row['city'],
-                state=row['state_name'],
-                zip=int(row['zip']),
-                lat=float(row['lat']),
-                lng=float(row['lng']),
+            location_list.append(
+                Location(
+                    city=row['city'],
+                    state=row['state_name'],
+                    zip=int(row['zip']),
+                    lat=float(row['lat']),
+                    lng=float(row['lng']),
+                )
             )
-            location.save()
+        Location.objects.bulk_create(location_list, batch_size=900)
 
 
 def delete_parsed_data(apps, schema_editor):
     with open(os.path.join(settings.BASE_DIR, 'locations.csv'), 'r') as file:
         reader = csv.DictReader(file, delimiter=',')
+        zip_list = []
         for row in reader:
-            Location.objects.get(zip=row['zip']).delete()
+            zip_list.append(int(row['zip']))
+        for i in range(900, len(zip_list), 900):
+            zip_list_part = zip_list[i-900: i]
+            Location.objects.filter(zip__in=zip_list_part).delete()
+            if len(zip_list) - i < 900:
+                zip_list_part = zip_list[i:len(zip_list)]
+                Location.objects.filter(zip__in=zip_list_part).delete()
 
 
 class Migration(migrations.Migration):

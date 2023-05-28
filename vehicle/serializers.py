@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from location.serializers import LocationDetailSerializer
 from .models import Vehicle
 
 
@@ -12,7 +11,6 @@ class VehicleSerializer(serializers.ModelSerializer):
 
 
 class VehicleUpdateSerializer(serializers.ModelSerializer):
-    current_location = LocationDetailSerializer
 
     class Meta:
         model = Vehicle
