@@ -1,6 +1,5 @@
 from django.db.models import ExpressionWrapper, Func, F, FloatField
 from django.db.models.functions import Coalesce, Radians
-
 from .models import Vehicle
 
 
@@ -8,6 +7,13 @@ class VehicleServices:
 
     @staticmethod
     def get_vehicles_and_distance(cargo):
+        """
+        Метод аннотирует все машины дополнительным полем distance и возвращает queryset машин.
+        Расчеты расстояния производятся без использования библиотеки geopy, так как при ее использовании
+        возникает проблема N+1 запросов.
+        :param cargo:
+        :return annotated vehicles:
+        """
         cargo_lat_rad = Radians(cargo.pick_up.lat)
         cargo_lng_rad = Radians(cargo.pick_up.lng)
         radius_m = 3558.8
