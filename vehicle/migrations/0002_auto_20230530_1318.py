@@ -11,8 +11,10 @@ from vehicle.models import Vehicle
 
 def create_default_vehicles(apps, schema_editor):
     vehicle_list = []
+    locations = list(Location.objects.all())
+    random_locations = random.sample(locations, 20)
     with open(os.path.join(settings.BASE_DIR, 'vehicle_reg_sign_list.txt'), 'w') as file:
-        for location in Location.objects.all()[:20]:
+        for location in random_locations:
             reg_sign = str(random.randint(1000, 9999)) + random.choice(string.ascii_uppercase)
             file.write(reg_sign+'\n')
             vehicle_list.append(
