@@ -1,27 +1,27 @@
-version: "3"
-
-services:
-  postgres:
-    image: postgres:15.3
-    environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - DB_HOST=0.0.0.0
-    container_name: "postgres"
-    ports:
-      - 5432:5432
-  server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: runserver 0.0.0.0:8000
-    ports:
-      - 8000:8000
-    environment:
-      - TZ=Europe/Moscow
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    depends_on:
-      - postgres
+#version: "3"
+#
+#services:
+#  postgres:
+#    image: postgres:15.3
+#    environment:
+#      - POSTGRES_NAME=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#      - DB_HOST=0.0.0.0
+#    container_name: "postgres"
+#    ports:
+#      - 5432:5432
+#  server:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    command: runserver 0.0.0.0:8000
+#    ports:
+#      - 8000:8000
+#    environment:
+#      - TZ=Europe/Moscow
+#      - POSTGRES_NAME=postgres
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#    depends_on:
+#      - postgres
